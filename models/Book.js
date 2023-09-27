@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const User = sequelize.define(
-  "user",
+const Book = sequelize.define(
+  "book",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -10,37 +10,32 @@ const User = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    username: {
+    title: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      unique: true,
     },
-    email: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: true,
-    },
-    name: {
-      type: DataTypes.STRING(45),
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    user_type: {
+    author: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    createdAt: {
-      type: DataTypes.DATE,
+    ISBN: {
+      type: DataTypes.STRING(45),
       allowNull: false,
-      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+      unique: true,
     },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
+    location: {
+      type: DataTypes.STRING(45),
+      allowNull: false,
+    }
   },
   {
     timestamps: false,
   }
 );
 
-export default User;
+export default Book;

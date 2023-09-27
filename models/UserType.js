@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../db/index.js";
+import sequelize from "../config/database.js";
 
 const UserType = sequelize.define(
   "usertype",
@@ -13,17 +13,7 @@ const UserType = sequelize.define(
     name: {
       type: DataTypes.STRING(50),
       allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-    },
+    }
   },
   {
     timestamps: false,

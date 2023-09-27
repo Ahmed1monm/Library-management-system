@@ -4,7 +4,7 @@ services:
   node-app:
     build:
       context: ./app
-      dockerfile: Dockerfile  # Replace with your Dockerfile name if different
+      dockerfile: Dockerfile  
     ports:
       - "3000:3000"  # Adjust the port if needed
     depends_on:
@@ -23,7 +23,7 @@ services:
   postgres:
     image: postgres:latest
     ports:
-      - "5432:5432"  # Adjust the port if needed
+      - "5432:5432"  
     environment:
       POSTGRES_DB: your_database_name
       POSTGRES_USER: your_database_user
@@ -37,7 +37,7 @@ services:
   redis:
     image: redis:latest
     ports:
-      - "6379:6379"  # Adjust the port if needed
+      - "6379:6379"  
     networks:
       - mynetwork
     volumes:
@@ -45,7 +45,6 @@ services:
 
 networks:
   mynetwork:
-    driver: bridge
 
 volumes:
   postgres-data:
