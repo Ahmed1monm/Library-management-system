@@ -1,0 +1,52 @@
+version: '3'
+services:
+  # Node.js application
+  node-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile  # Replace with your Dockerfile name if different
+    ports:
+      - "3000:3000"  # Adjust the port if needed
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: your_database_name
+      POSTGRES_USER: your_database_user
+      POSTGRES_PASSWORD: your_database_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+  # PostgreSQL
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"  # Adjust the port if needed
+    environment:
+      POSTGRES_DB: your_database_name
+      POSTGRES_USER: your_database_user
+      POSTGRES_PASSWORD: your_database_password
+    networks:
+      - mynetwork
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  # Redis
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"  # Adjust the port if needed
+    networks:
+      - mynetwork
+    volumes:
+      - redis-data:/data
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
