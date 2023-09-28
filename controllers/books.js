@@ -1,4 +1,4 @@
-import { getBooks, countBooks, createOneBook, deleteOneBook, findBookById, updateOneBook } from "../services/books.services.js";
+import { getBooks, countBooks, createOneBook, deleteOneBook, findBookById, updateOneBook, createBorrowingProccess } from "../services/books.services.js";
 import { insertOneChecking } from "../services/checkings.services.js";
 
 export const createBook = async (req, res) => {
@@ -6,7 +6,7 @@ export const createBook = async (req, res) => {
     const { title, author, ISBN, quantity, location } = req.body;
     const book = await createOneBook({ title, userId: author, ISBN, quantity, location });
     return res
-            .status(200)
+            .status(201)
             .json({ message: "book created successfully", data: book });
   } catch (error) {
     return res.status(500).json({ message: `error ${error}` });
@@ -66,6 +66,25 @@ export const listBooks = async (req, res) => {
     const books = await getBooks(offset, count);
     const booksCount = await countBooks();
     return res.status(200).json({ data: books, total: booksCount, page });
+  } catch (error) {
+    return res.status(500).json({ message: `Error: ${error}` });
+  }
+};
+export const borrowBooks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { dueTo } = req.body;
+    const  userId  = req.user.id;
+
+    const book = await findBookById(id);
+    
+    if(!book) return res.status(404).json({ message: "Book not found" });
+    if(book.quantity < 1) return res.status(400).json({ message: "Book out of stock" });
+
+    const borrowingProcess = await createBorrowingProccess({userId, bookId: id, dueTo});
+    await updateOneBook(id ,{quantity: book.quantity - 1});
+
+    return res.status(201).json({ data: borrowingProcess, message: "Borrowing process succeed" });
   } catch (error) {
     return res.status(500).json({ message: `Error: ${error}` });
   }

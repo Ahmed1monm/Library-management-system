@@ -1,4 +1,5 @@
-import Book from "../models/Book.js"
+import Book from "../models/Book.js";
+import BorrowingProcess from "../models/BorrowingProcess.js";
 import User from "../models/User.js";
 
 export const getBooks = async (offset, count)=>{
@@ -37,5 +38,10 @@ export const updateOneBook = async (id, data)=>{
 
 export const deleteOneBook = async (id)=>{
     const book = await Book.destroy({ where: { id } });
+    return book;
+}
+
+export const createBorrowingProccess = async (data)=>{
+    const book = await BorrowingProcess.create(data);
     return book;
 }

@@ -18,9 +18,14 @@ const BorrowingProcess = sequelize.define(
     type: DataTypes.INTEGER,
     allowNull: false,
     },
-    due_to: {
+    dueTo: {
       type: DataTypes.DATEONLY,
       allowNull: false,
+    },
+    isReturned: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     },
     date: {
         type: DataTypes.DATEONLY,
