@@ -1,4 +1,15 @@
-import { getBooks, countBooks, createOneBook, deleteOneBook, findBookById, updateOneBook, createBorrowingProccess } from "../services/books.services.js";
+import { 
+    getBooks,
+    countBooks, 
+    createOneBook, 
+    deleteOneBook, 
+    findBookById, 
+    updateOneBook, 
+ } from "../services/books.services.js";
+import { 
+    createBorrowingProccess, 
+    getBorrowingProccess, 
+    setBorrowingProccessReturned } from "../services/borrowing.services.js";
 import { insertOneChecking } from "../services/checkings.services.js";
 
 export const createBook = async (req, res) => {
@@ -70,21 +81,40 @@ export const listBooks = async (req, res) => {
     return res.status(500).json({ message: `Error: ${error}` });
   }
 };
-export const borrowBooks = async (req, res) => {
+export const borrowBook = async (req, res) => {
   try {
     const { id } = req.params;
     const { dueTo } = req.body;
     const  userId  = req.user.id;
 
     const book = await findBookById(id);
-    
+    // check if the book exists and available
     if(!book) return res.status(404).json({ message: "Book not found" });
     if(book.quantity < 1) return res.status(400).json({ message: "Book out of stock" });
 
     const borrowingProcess = await createBorrowingProccess({userId, bookId: id, dueTo});
-    await updateOneBook(id ,{quantity: book.quantity - 1});
+    // decrement the quantity
+    await updateOneBook(id ,{quantity: book.quantity - 1}); 
 
     return res.status(201).json({ data: borrowingProcess, message: "Borrowing process succeed" });
+  } catch (error) {
+    return res.status(500).json({ message: `Error: ${error}` });
+  }
+};
+
+export const returnBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const  userId  = req.user.id;
+  
+    const borrowingProcess = await getBorrowingProccess(id, userId);
+    if(!borrowingProcess) return res.status(404).json({ message: "Borrowing process not found or already returned"});
+    const book = await findBookById(id);
+    // set borrowing process as returned and increament available quantity of the book
+    await setBorrowingProccessReturned(borrowingProcess.id)
+    await updateOneBook(id ,{quantity: book.quantity + 1});
+
+    return res.status(201).json({ message: "Borrowing process succeed" });
   } catch (error) {
     return res.status(500).json({ message: `Error: ${error}` });
   }

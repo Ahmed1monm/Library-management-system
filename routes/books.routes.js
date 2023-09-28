@@ -6,7 +6,8 @@ import {
     listBooks, 
     updateBook,
     getBook,
-    borrowBooks
+    borrowBook,
+    returnBook
 } from "../controllers/books.js";
 import { auth } from "../middlewares/auth.js";
 import { createBookValidator, updateBookValidator } from "../validators/books.validator.js";
@@ -22,6 +23,8 @@ router.route("/:id")
         .put(auth, updateBookValidator, updateBook)
 
 router.route("/:id/borrow")
-        .post(auth, borrowBooks)
+        .post(auth, borrowBook)
+router.route("/:id/return")
+        .post(auth, returnBook)
   
 export default router;
