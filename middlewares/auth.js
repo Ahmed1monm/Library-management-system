@@ -21,3 +21,10 @@ export const auth = async (req, res, next) => {
       });
   }
 };
+
+export const checkIsAdmin = async (req, res, next) =>{
+  if (req.user.user_type !== 3){
+    return res.status(401).json("You are not authorized!");
+  }
+  next();
+}

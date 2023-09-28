@@ -28,7 +28,7 @@ const User = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    user_type: {
+    usertypeId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

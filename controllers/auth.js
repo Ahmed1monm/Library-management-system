@@ -15,6 +15,7 @@ export const register = async (req, res) => {
       {
         id: newUser.id,
         username: newUser.username,
+        user_type
       },
       process.env.SECRET_KEY
     );

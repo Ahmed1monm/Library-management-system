@@ -13,7 +13,7 @@ import routers from "./routes/index.js";
 // database models
 import User from "./models/User.js";
 import UserType from "./models/UserType.js";
-import Book from "./models/book.js";
+import Book from "./models/Book.js";
 import BorrowingProcess from "./models/BorrowingProcess.js";
 import CheckingProcess from "./models/CheckingProcess.js";
 
@@ -35,28 +35,28 @@ app.use("/v1", routers);
 
 // -------------- Relations -----------------
 // user to usertype => one to many
-UserType.hasMany(User, { foreignKey: 'user_type' });
+UserType.hasMany(User);
 User.belongsTo(UserType);
 
 // user to book => one to many. each book has one author (user of type author)
-User.hasMany(Book, { foreignKey: 'author' });
+User.hasMany(Book);
 Book.belongsTo(User);
 
 // check to borrower => one to noe. user of type borrower
-CheckingProcess.hasOne(User,  { foreignKey: 'borrower_id' });
-User.belongsTo(CheckingProcess);
+User.hasOne(CheckingProcess);
+CheckingProcess.belongsTo(User);
 
 // check to book => one to noe. 
-CheckingProcess.hasOne(Book,  { foreignKey: 'book_id' });
-Book.belongsTo(CheckingProcess);
+Book.hasOne(CheckingProcess);
+CheckingProcess.belongsTo(Book);
 
 // bottowingProcess to borrower => one to noe. user of type borrower
-BorrowingProcess.hasOne(User,  { foreignKey: 'borrower_id' });
-User.belongsTo(BorrowingProcess);
+User.hasOne(BorrowingProcess);
+BorrowingProcess.belongsTo(User);
 
 // bottowingProcess to book => one to noe. 
-BorrowingProcess.hasOne(Book,  { foreignKey: 'book_id' });
-Book.belongsTo(BorrowingProcess);
+Book.hasOne(BorrowingProcess);
+BorrowingProcess.belongsTo(Book);
 
 const PORT = process.env.PORT
 

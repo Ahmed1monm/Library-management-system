@@ -10,11 +10,11 @@ const BorrowingProcess = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    borrower_id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    book_id: {
+    bookId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     },
