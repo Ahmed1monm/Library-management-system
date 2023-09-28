@@ -63,7 +63,7 @@ const PORT = process.env.PORT
 const FORCESYNC = false;
 
 sequelize.sync({ force: FORCESYNC }).then(() => {
-  app.listen(PORT, () => {
+  app.listen(8000, () => {
     console.log(`Server running on port: http://localhost:${PORT}`);
   });
 });

@@ -21,7 +21,7 @@ export const countBooks = async ()=>{
 }
 
 export const findBookById = async (id)=>{
-    const book = await Book.count({ where: { id } });
+    const book = await Book.findOne({ where: { id } });
     return book;
 }
 

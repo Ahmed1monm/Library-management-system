@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile  
     ports:
-      - "8000:3000"  
+      - "3000:3000"  
     networks:
       - mynetwork
     depends_on:

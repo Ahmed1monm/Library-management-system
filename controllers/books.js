@@ -1,4 +1,5 @@
 import { getBooks, countBooks, createOneBook, deleteOneBook, findBookById, updateOneBook } from "../services/books.services.js";
+import { insertOneChecking } from "../services/checkings.services.js";
 
 export const createBook = async (req, res) => {
   try {
@@ -37,6 +38,21 @@ export const deleteBook = async (req, res) => {
     return res
             .status(200)
             .json({message: "book deleted successfully", affectedRow });
+  } catch (error) {
+    return res.status(500).json({ message: `error ${error}` });
+  }
+};
+
+export const getBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user } = req;
+    if(user.usertypeId === 2) await insertOneChecking({ userId: user.id, bookId: id })
+    const book = await findBookById(id);
+    if(!book) return res.status(404).json({ message: "book not found" });
+    return res
+            .status(200)
+            .json({message: "success", book, user });
   } catch (error) {
     return res.status(500).json({ message: `error ${error}` });
   }
