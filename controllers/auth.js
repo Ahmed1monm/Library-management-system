@@ -2,6 +2,12 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 
+/**
+ * @async
+ * @description create user
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const register = async (req, res) => {
   try {
     const { name, username, email, password, usertypeId } = req.body;
@@ -25,6 +31,12 @@ export const register = async (req, res) => {
   }
 };
 
+/**
+ * @async
+ * @description login
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;

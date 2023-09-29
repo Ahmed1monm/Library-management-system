@@ -1,6 +1,12 @@
 import { USER_TYPES } from "../config/constants.js";
 import { getUsers, countUsers, findUserById, updateOneUser, deleteOneUser } from "../services/users.services.js";
 
+/**
+ * @async
+ * @description update user data
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -16,7 +22,12 @@ export const updateUser = async (req, res) => {
   }
 };
 
-
+/**
+ * @async
+ * @description delete user
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -30,10 +41,16 @@ export const deleteUser = async (req, res) => {
     return res.status(500).json({ message: `error ${error}` });
   }
 };
-
+/**
+ * @async
+ * @description list users of specifice type
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const listUsers = async (req, res) => {
   try {
-    const { page = 1, count = 10, type } = req.query;
+    const { page = 1, count = 10, type=2 } = req.query;
+    // invalid user role
     if(!USER_TYPES[type]) return res.status(404).json({ message: "This user type doesn't exist" });
     const offset = (parseInt(page) - 1) * parseInt(count);
     const users = await getUsers(type, offset, count);

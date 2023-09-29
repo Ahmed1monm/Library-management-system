@@ -13,6 +13,12 @@ import {
     getUserBooks } from "../services/borrowing.services.js";
 import { insertOneChecking } from "../services/checkings.services.js";
 
+/**
+ * @async
+ * @description create book
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const createBook = async (req, res) => {
   try {
     const { title, author, ISBN, quantity, location } = req.body;
@@ -25,6 +31,12 @@ export const createBook = async (req, res) => {
   }
 };
 
+/**
+ * @async
+ * @description update book by id
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const updateBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,11 +52,17 @@ export const updateBook = async (req, res) => {
   }
 };
 
-
+/**
+ * @async
+ * @description delete book by id
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
     const book = await findBookById(id);
+    // check if the book exists
     if(!book) return res.status(404).json({ message: "book not found" });
     const affectedRow = await deleteOneBook(id);
     return res
@@ -55,6 +73,12 @@ export const deleteBook = async (req, res) => {
   }
 };
 
+/**
+ * @async
+ * @description get book and make checking record
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const getBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -72,6 +96,12 @@ export const getBook = async (req, res) => {
   }
 };
 
+/**
+ * @async
+ * @description list all books
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const listBooks = async (req, res) => {
   try {
     const { page = 1, count = 10 } = req.query;
@@ -84,6 +114,13 @@ export const listBooks = async (req, res) => {
     return res.status(500).json({ message: `Error: ${error}` });
   }
 };
+
+/**
+ * @async
+ * @description borrow book
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const borrowBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -105,6 +142,12 @@ export const borrowBook = async (req, res) => {
   }
 };
 
+/**
+ * @async
+ * @description return book to lib.
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const returnBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -123,6 +166,12 @@ export const returnBook = async (req, res) => {
   }
 };
 
+/**
+ * @async
+ * @description make user books he has
+ * @param  {Object} req - Express request object
+ * @param  {Object} res - Express response object
+ */
 export const getMyBooks = async (req, res) => {
   try {
     const userId  = req.user.id;

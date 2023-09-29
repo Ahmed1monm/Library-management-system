@@ -2,6 +2,7 @@ import { mkConfig, generateCsv } from "export-to-csv";
 import { appendFileSync } from "fs";
 import { v4 as uuidv4 } from 'uuid';
 
+
 export const exportCSV = (data) => {
     const csvConfig = mkConfig({ useKeysAsHeaders: true });
     const csv = generateCsv(csvConfig)(data);

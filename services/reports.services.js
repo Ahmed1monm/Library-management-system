@@ -4,6 +4,12 @@ import BorrowingProcess from "../models/BorrowingProcess.js";
 import sequelize from "../config/database.js";
 import { Op, QueryTypes } from "sequelize";
 
+/**
+ * @async
+ * @description list over due borrowing processes
+ * @param  {int} offset - paggination offset
+ * @param  {int} count - paggination limit
+ */
 export const getOverdueBooks = async (offset, count)=>{
     const today = new Date();
 
@@ -29,6 +35,10 @@ export const getOverdueBooks = async (offset, count)=>{
     return books;
 }
 
+/**
+ * @async
+ * @description count over due borrowing processes
+ */
 export const countOverdueBooks = async ()=>{
     const today = new Date();
 
@@ -41,6 +51,10 @@ export const countOverdueBooks = async ()=>{
     return count;
 }
 
+/**
+ * @async
+ * @description list borrowing processes that been made lat month
+ */
 export const getlastMonthBorrowings = async ()=>{
     const [rows, metadata] = await sequelize.query(
         `
@@ -67,6 +81,12 @@ export const getlastMonthBorrowings = async ()=>{
     return rows;
 }
 
+/**
+ * @async
+ * @description list borrowing processes in specific time
+ * @param  {data} startDate - start date limit
+ * @param  {data} endDate - end date limit
+ */
 export const borrowingProcess = async (startDate, endDate)=>{
     const rows = await sequelize.query(
         `

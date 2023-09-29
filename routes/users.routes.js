@@ -10,6 +10,7 @@ import { auth } from "../middlewares/auth.js";
 const router = express.Router();
 
 router.route("/").get(auth, listUsers)
+// user can list books he has
 router.route("/profile/books").get(auth, getMyBooks)
 router.route("/:id")
           .delete(auth, deleteUser)
