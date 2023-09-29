@@ -40,3 +40,41 @@ export const countOverdueBooks = async ()=>{
     });
     return count;
 }
+
+export const getlastMonthBorrowings = async (offset, count)=>{
+    const [rows, metadata] = await sequelize.query(
+        `
+        SELECT 
+        "bp"."dueTo" AS due_to,
+        "bp"."date" AS borrowing_date,
+        "u"."name",
+        "b"."title" AS book,
+        "author"."name" AS author_name,
+        CASE
+            WHEN "bp"."isReturned" = 1 THEN 'Returned'
+            WHEN "bp"."isReturned" = 0 THEN 'Not Returned'
+            ELSE 'Unknown'
+        END AS status
+    FROM "borrowing_processes" AS "bp"
+    JOIN "users" AS "u" ON "u"."id" = "bp"."userId"
+    JOIN "books" AS "b" ON "b"."id" = "bp"."bookId"
+    JOIN "users" AS "author" ON "b"."userId" = "author"."id"
+    WHERE 
+        EXTRACT(YEAR FROM "date") = EXTRACT(YEAR FROM NOW() - INTERVAL '1 month')
+        AND EXTRACT(MONTH FROM "date") = EXTRACT(MONTH FROM NOW() - INTERVAL '1 month');
+        `
+    )
+    return rows;
+}
+
+// export const countOverdueBooks = async ()=>{
+//     const today = new Date();
+
+//     const count = await BorrowingProcess.count({
+//         where: {     
+//             dueTo: { [Op.lt]: today},
+//             isReturned: 0
+//         },
+//     });
+//     return count;
+// }
