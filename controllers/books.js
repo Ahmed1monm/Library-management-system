@@ -9,7 +9,8 @@ import {
 import { 
     createBorrowingProccess, 
     getBorrowingProccess, 
-    setBorrowingProccessReturned } from "../services/borrowing.services.js";
+    setBorrowingProccessReturned,
+    getUserBooks } from "../services/borrowing.services.js";
 import { insertOneChecking } from "../services/checkings.services.js";
 
 export const createBook = async (req, res) => {
@@ -58,6 +59,8 @@ export const getBook = async (req, res) => {
   try {
     const { id } = req.params;
     const { user } = req;
+    // insert checking process if book checked by borrower.
+    // Author and Admin checkings not
     if(user.usertypeId === 2) await insertOneChecking({ userId: user.id, bookId: id })
     const book = await findBookById(id);
     if(!book) return res.status(404).json({ message: "book not found" });
@@ -114,7 +117,17 @@ export const returnBook = async (req, res) => {
     await setBorrowingProccessReturned(borrowingProcess.id)
     await updateOneBook(id ,{quantity: book.quantity + 1});
 
-    return res.status(201).json({ message: "Borrowing process succeed" });
+    return res.status(200).json({ message: "Borrowing process succeed" });
+  } catch (error) {
+    return res.status(500).json({ message: `Error: ${error}` });
+  }
+};
+
+export const getMyBooks = async (req, res) => {
+  try {
+    const userId  = req.user.id;
+    const books = await getUserBooks(userId)
+    return res.status(200).json({ message: "books received successfully", data: books });
   } catch (error) {
     return res.status(500).json({ message: `Error: ${error}` });
   }
