@@ -16,6 +16,7 @@ import UserType from "./models/UserType.js";
 import Book from "./models/Book.js";
 import BorrowingProcess from "./models/BorrowingProcess.js";
 import CheckingProcess from "./models/CheckingProcess.js";
+import { initUsertypes } from "./utils/init.js";
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -63,6 +64,7 @@ const PORT = process.env.PORT
 const FORCESYNC = false;
 
 sequelize.sync({ force: FORCESYNC }).then(() => {
+  initUsertypes();
   app.listen(8000, () => {
     console.log(`Server running on port: http://localhost:${PORT}`);
   });

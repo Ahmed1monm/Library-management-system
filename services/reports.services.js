@@ -44,7 +44,7 @@ export const countOverdueBooks = async ()=>{
 export const getlastMonthBorrowings = async (offset, count)=>{
     const [rows, metadata] = await sequelize.query(
         `
-        SELECT 
+    SELECT 
         "bp"."dueTo" AS due_to,
         "bp"."date" AS borrowing_date,
         "u"."name",
@@ -67,14 +67,4 @@ export const getlastMonthBorrowings = async (offset, count)=>{
     return rows;
 }
 
-// export const countOverdueBooks = async ()=>{
-//     const today = new Date();
 
-//     const count = await BorrowingProcess.count({
-//         where: {     
-//             dueTo: { [Op.lt]: today},
-//             isReturned: 0
-//         },
-//     });
-//     return count;
-// }
