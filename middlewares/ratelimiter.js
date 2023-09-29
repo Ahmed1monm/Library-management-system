@@ -35,6 +35,6 @@ export const rateLimiterMiddleware = (req, res, next) => {
         "X-RateLimit-Remaining": rateLimiterRes.remainingPoints,
         "X-RateLimit-Reset": new Date(Date.now() + rateLimiterRes.msBeforeNext)
       });
-      next(boom.tooManyRequests());
+      next(res.status(429).json({message: "Too many requests"}));
     });
 };

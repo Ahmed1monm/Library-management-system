@@ -24,7 +24,7 @@ export const overdueBooks = async (req, res) => {
 export const lastMonthBorrowings = async (req, res) => {
   try {
     
-    const borrowings = await getlastMonthBorrowings(offset, count);
+    const borrowings = await getlastMonthBorrowings();
     return res.status(200).json({ data: borrowings });
 
   } catch (error) {

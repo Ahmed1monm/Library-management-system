@@ -41,7 +41,7 @@ export const countOverdueBooks = async ()=>{
     return count;
 }
 
-export const getlastMonthBorrowings = async (offset, count)=>{
+export const getlastMonthBorrowings = async ()=>{
     const [rows, metadata] = await sequelize.query(
         `
     SELECT 

@@ -5,6 +5,6 @@ export const USER_TYPES = {
 }
 
 export const RATE_LIMITER = {
-    RATE_LIMITER_POINTS: 5,
-    RATE_LIMITER_BLOCK_DURATION: 60 * 15, // 15 Minutes
+    RATE_LIMITER_POINTS: 1,
+    RATE_LIMITER_BLOCK_DURATION: 10, // 10 s 
 }
