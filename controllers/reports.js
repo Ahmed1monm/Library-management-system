@@ -1,8 +1,10 @@
 import { 
     getOverdueBooks,
     countOverdueBooks,
-    getlastMonthBorrowings
+    getlastMonthBorrowings,
+    borrowingProcess
  } from "../services/reports.services.js";
+import { exportCSV } from "../utils/attachments.js";
 
 
 export const overdueBooks = async (req, res) => {
@@ -24,6 +26,20 @@ export const lastMonthBorrowings = async (req, res) => {
     
     const borrowings = await getlastMonthBorrowings(offset, count);
     return res.status(200).json({ data: borrowings });
+
+  } catch (error) {
+    return res.status(500).json({ message: `Error: ${error}` });
+  }
+};
+
+export const borrowingProcessReport = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    const report = await borrowingProcess(startDate, endDate);
+    const file = exportCSV(report);
+    const fullPath = `${req.host}:${process.env.PORT}${file}`
+
+    return res.status(200).json({ data: report, file: fullPath });
 
   } catch (error) {
     return res.status(500).json({ message: `Error: ${error}` });
