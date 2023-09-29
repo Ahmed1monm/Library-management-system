@@ -36,6 +36,7 @@ export const borrowingProcessReport = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
     const report = await borrowingProcess(startDate, endDate);
+    if(report.length === 0) return res.status(400).json({ message: "This report contains empty data" })
     const file = exportCSV(report);
     const fullPath = `${req.host}:${process.env.PORT}${file}`
 

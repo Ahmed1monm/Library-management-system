@@ -1,8 +1,12 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize("Library", "postgres", "01151875214", {
+const sequelize = new Sequelize(
+  process.env.POSTGRES_DATABASE, 
+  "postgres", 
+  process.env.POSTGRES_PASSWORD, 
+  {
   dialect: "postgres",
-  host: "localhost",
+  host:process.env.POSTGRES_HOST,
 });
 
 export default sequelize;
